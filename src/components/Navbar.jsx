@@ -7,7 +7,7 @@ const {user, logOut} = useContext(AuthContext)
 
   return (
     <div className="flex justify-between items-center">
-      <div className="">{user && user.name}</div>
+      <div className="">{user && user.email}</div>
       <div className="nav space-x-5">
         <Link to="/">Home</Link>
         <Link to="/career">Career</Link>
