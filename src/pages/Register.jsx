@@ -1,10 +1,11 @@
 
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 const Register = () => {
 
-    const {createNewUser, setUser} =  useContext(AuthContext)
+    const {createNewUser, setUser, updateUserProfile} =  useContext(AuthContext)
+    const navigate = useNavigate();
 
     const [error, setError] = useState({});
 
@@ -21,19 +22,26 @@ const Register = () => {
         const email = form.get('email');
         const photo = form.get('photo');
         const password = form.get('password');
-        console.log({name, email, photo, password});
+        // console.log({name, email, photo, password});
 
         createNewUser(email, password)
         .then((result) => {
             const user = result.user;
             setUser(user);
-            console.log(user);
+            updateUserProfile({displayName: name, photoURL: photo })
+            .then(() => {
+                navigate("/");
+            })
+            .catch(err => {
+                // console.log(err);
+
+            })
         })
 
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            console.log(errorCode, errorMessage);
+            // console.log(errorCode, errorMessage);
 
         });
     }
